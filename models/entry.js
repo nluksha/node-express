@@ -1,6 +1,6 @@
 const redis = require('redis');
 const db = redis.createClient();
-const ENTRY_TABLE = 'entries'
+const ENTRY_TABLE = 'entries';
 
 class Entry {
   static getRange(from, to, cb) {

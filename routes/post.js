@@ -6,8 +6,8 @@ const form = (req, res) => {
   res.render('post', { title: 'Post' });
 };
 
-const submit = (req, res, next) => {
-  const data = req.body.data;
+const submit = (req, res) => {
+  const data = req.body.entry;
   const user = res.locals.user;
 
   const userName = user? user.name: null;
