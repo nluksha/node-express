@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Entry = require('../models/entry');
+const validate = require('../middleware/validate');
 
 const form = (req, res) => {
   res.render('post', { title: 'Post' });
@@ -28,6 +29,10 @@ const submit = (req, res) => {
 };
 
 router.get('/', form);
-router.post('/', submit);
+router.post('/', 
+  validate.required('entry[title]'),
+  validate.lengthAbove('entry[title]', 4),
+  submit
+);
 
 module.exports = router;
