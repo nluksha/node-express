@@ -27,6 +27,30 @@ class User {
     });
   }
 
+  static authenticate(name, pass, cb) {
+    User.getByName(name, (err, user) => {
+      if (err) {
+        return cb(err);
+      }
+
+      if (!user.id) {
+        return cb();
+      }
+
+      bcrypt.hash(pass, user.salt, (err, hash) => {
+        if (err) {
+          return cb(err);
+        }
+
+        if (hash === user.pass) {
+          return cb(null, user);
+        }
+
+        cb();
+      });
+    });
+  }
+
   constructor(obj) {
     for( let key in obj) {
       this[key] = obj[key];
@@ -102,6 +126,10 @@ user.save(err => {
 });
 
 User.getByName('Test', (err, user)=> {
+  console.log(user);
+});
+
+User.authenticate('Test', '1234567', (err, user)=> {
   console.log(user);
 });
 */
