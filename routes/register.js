@@ -7,28 +7,44 @@ const form = (req, res) => {
   res.render('register', { title: 'Register' });
 };
 
-const submit = (req, res) => {
-  const data = req.body.entry;
+const submit = (req, res, next) => {
+  const data = req.body.user;
   const user = res.locals.user;
 
-  const userName = user? user.name: null;
-
-  const entry = new Entry({
-    userName: userName,
-    title: data.title,
-    body: data.body
-  });
-
-  entry.save(err => {
-    if (err) {
+  User.getByName(data.name, (err, user) => {
+    if(err) {
       return next(err);
     }
 
-    res.redirect('/');
+    if (user.id) {
+      res.error('Username already taken!');
+      res.redirect('back');
+    } else {
+      const newUser = new User({
+        name: data.name,
+        pass: data.pass
+      });
+
+      newUser.save(err => {
+        if(err) {
+          return next(err);
+        }
+
+        req.session.uid = newUser.id;
+        res.redirect('/');
+      });
+    }
   });
 };
 
 router.get('/', form);
-router.post('/', submit);
+router.post(
+  '/',
+  validate.required('user[name]'),
+  validate.required('user[pass]'),
+  validate.lengthAbove('user[name]', 4),
+  validate.lengthAbove('user[pass]', 4),
+  submit
+);
 
 module.exports = router;
