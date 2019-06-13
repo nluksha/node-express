@@ -7,6 +7,7 @@ var session = require('express-session');
 
 var routes = require('./routes');
 var messages = require('./middleware/messages');
+var user = require('./middleware/user');
 
 var app = express();
 
@@ -23,9 +24,9 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-app.use(messages);
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(messages);
+app.use(user);
 app.use('/', routes);
 
 // catch 404 and forward to error handler
