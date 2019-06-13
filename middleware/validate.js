@@ -18,9 +18,9 @@ exports.required = fieldProp => {
     if (getField(req, field)) {
       next();
     } else {
-      next(new Error(`${field.join(' ')} is required`));
-      // res.error(`${field.join(' ')} is required`);
-      // res.redirect('back');
+      //next(new Error(`${field.join(' ')} is required`));
+      res.error(`${field.join(' ')} is required`);
+      res.redirect('back');
     }
   }
 };
@@ -32,9 +32,9 @@ exports.lengthAbove = (fieldProp, len) => {
     if (getField(req, field).length > len) {
       next();
     } else {
-      next(new Error(`${field.join(' ')} must be more than ${len} characters`));
-      // res.error(`${field.join(' ')} must be more than ${len} characters`);
-      // res.redirect('back');
+      //next(new Error(`${field.join(' ')} must be more than ${len} characters`));
+      res.error(`${field.join(' ')} must be more than ${len} characters`);
+      res.redirect('back');
     }
   }
 };
