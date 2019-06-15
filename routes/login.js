@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const login = require('../controllers/login');
+const auth = require('../controllers/auth');
 const validate = require('../middleware/validate');
 
-router.get('/', login.form);
+router.get('/', auth.getLoginForm);
 router.post(
   '/',
   validate.required('user[name]'),
   validate.required('user[pass]'),
-  login.submit
+  auth.submitLogin
 );
 
 module.exports = router;
