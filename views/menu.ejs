@@ -1,6 +1,6 @@
 <% if (locals.user) { %>
   <div id='menu'>
-    <span class="name"><%= user.name %></span>
+    <span class="name"><%= user.name %> | <%= user.id %></span>
     <a href="/">home</a>
     <a href="/post">post</a>
     <a href="/logout">logout</a>
