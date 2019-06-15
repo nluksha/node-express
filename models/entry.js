@@ -18,6 +18,10 @@ class Entry {
     });
   }
 
+  static count(cb) {
+    db.llen(ENTRY_TABLE, cb);
+  }
+
   constructor(obj) {
     for( let key in obj) {
       this[key] = obj[key];
